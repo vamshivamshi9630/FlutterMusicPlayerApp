@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "850925345028",
+    "project_id": "musicplayerapp-flutter",
+    "storage_bucket": "musicplayerapp-flutter.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:850925345028:android:966cb15b9025391eec5851",
+        "android_client_info": {
+          "package_name": "com.example.music_player"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "850925345028-36tr1si5psn07738srlgduj9t26lh431.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.music_player",
+            "certificate_hash": "e1e8465c294c6810def02952b656c10752dda678"
+          }
+        },
+        {
+          "client_id": "850925345028-tgqqc6bd5f86bpeqje1omc8gj92puou8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDPniP116Vp422R0keYjiOc8h2y8qxPrtU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "850925345028-tgqqc6bd5f86bpeqje1omc8gj92puou8.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "850925345028-8hugjrh5j3c2ug3ohs98d73h8fke77m1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.practise"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
