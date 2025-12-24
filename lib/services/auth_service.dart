@@ -40,14 +40,17 @@ class AuthService extends ChangeNotifier {
         return;
       }
 
-      if (!kIsWeb && defaultTargetPlatform == TargetPlatform.windows) {
-        debugPrint('[AuthService] Windows desktop OAuth mode');
-      } else {
+      if (kIsWeb) {
         _googleSignIn = GoogleSignIn(
           scopes: const ['email', 'profile'],
-          clientId: Secrets.googleClientId,
+          clientId: Secrets.googleClientId, // Web client ID
+        );
+      } else {
+        _googleSignIn = GoogleSignIn(
+          scopes: const ['email', 'profile'], // mobile uses google-services.json / plist
         );
       }
+
 
       await _loadUserFromStorage();
       notifyListeners();
@@ -96,14 +99,23 @@ class AuthService extends ChangeNotifier {
     notifyListeners();
 
     try {
-      if (!Secrets.isConfigured) return false;
+      // 🔐 Make sure secrets / config exist
+      if (!Secrets.isConfigured) {
+        debugPrint('[AuthService] Google config missing');
+        return false;
+      }
 
+      // 🖥️ Use desktop flow only for Windows
       if (!kIsWeb && defaultTargetPlatform == TargetPlatform.windows) {
         return await _signInDesktop();
       }
 
+      // 📲 Normal Google sign-in (Android / iOS / Web)
       final googleUser = await _googleSignIn.signIn();
-      if (googleUser == null) return false;
+      if (googleUser == null) {
+        debugPrint('[AuthService] User canceled sign-in');
+        return false;
+      }
 
       _user = {
         'uid': googleUser.id,
@@ -114,8 +126,9 @@ class AuthService extends ChangeNotifier {
 
       await _saveUserToStorage();
       return true;
-    } catch (e) {
+    } catch (e, s) {
       debugPrint('[AuthService] Sign-in failed: $e');
+      debugPrint('$s');
       return false;
     } finally {
       _isLoading = false;

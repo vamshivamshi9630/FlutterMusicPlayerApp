@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 /// Central place for sensitive config injected via --dart-define
 /// ❌ Never hardcode secrets here
 class Secrets {
@@ -7,8 +9,18 @@ class Secrets {
   static const String googleClientSecret =
   String.fromEnvironment('GOOGLE_CLIENT_SECRET', defaultValue: '');
 
-  static bool get isConfigured =>
-      googleClientId.isNotEmpty && googleClientSecret.isNotEmpty;
+  static bool get isConfigured {
+    // Android / iOS rely on google-services.json / plist
+    if (!kIsWeb &&
+        (defaultTargetPlatform == TargetPlatform.android ||
+            defaultTargetPlatform == TargetPlatform.iOS)) {
+      return true;
+    }
+
+    // Web + Desktop still require both
+    return googleClientId.isNotEmpty && googleClientSecret.isNotEmpty;
+  }
+
 
   static void validate() {
     if (!isConfigured) {
